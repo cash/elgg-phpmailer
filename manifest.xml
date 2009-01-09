@@ -4,5 +4,5 @@
         <field key="version" value="1.0" />
         <field key="description" value="PHPMailer plugin." />
         <field key="website" value="" />
-        <field key="copyright" value="(C) Cash Costello 2008" />
+        <field key="copyright" value="Cash Costello 2009" />
 </plugin_manifest>

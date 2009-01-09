@@ -50,6 +50,13 @@
         throw new NotificationException(sprintf(elgg_echo('NotificationException:NoEmailAddress'), $to->guid));      
          
 
+      // set line ending if admin selected \n (if admin did not change setting, false is returned)
+      if (get_plugin_setting('nonstd_mta','phpmailer'))
+        $phpmailer->LE = "\n"
+      else
+        $phpmailer->LE = "\r\n";
+         
+      
       $to = $to->email;
       $from_email = phpmailer_extract_from_email();
 		  $from_name = $site->name;
@@ -69,7 +76,6 @@
 
       // Set destination address
       $phpmailer->AddAddress($to);
-      $phpmailer->AddCC("cj@costellofamily.org");
    
       $phpmailer->Subject = $subject;
       $phpmailer->Body = $message;
