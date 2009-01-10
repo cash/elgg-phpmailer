@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin_manifest>
         <field key="author" value="Cash Costello" />
-        <field key="version" value="1.0" />
+        <field key="version" value="0.9" />
         <field key="description" value="PHPMailer plugin." />
         <field key="website" value="" />
         <field key="copyright" value="Cash Costello 2009" />
