@@ -63,10 +63,10 @@
 		  
 
       ////////////////////////////////////
-      // Format Message Body ?      
       // Format message
+      
+      // need to revisit this
       $message = strip_tags($message); 
-      $message = preg_replace("/(\r\n|\r)/", "\n", $message); // Convert to unix line endings in body
 
       $phpmailer->ClearAllRecipients();
 
@@ -79,11 +79,35 @@
    
       $phpmailer->Subject = $subject;
       $phpmailer->Body = $message;
-   
-      $phpmailer->IsMail();         // use php's mail
+      
       $phpmailer->IsHTML(false);
 
-      return @$phpmailer->Send();         
+      $is_smtp   = get_plugin_setting('phpmailer_smtp','phpmailer');
+      $smtp_host = get_plugin_setting('phpmailer_host','phpmailer');
+      if ($is_smtp && isset($smtp_host))
+      {
+        $phpmailer->IsSMTP();
+        $phpmailer->Host = $smtp_host;
+        
+        // uncomment these lines for gmail support and set username and password
+        //$phpmailer->Host = "ssl://smtp.gmail.com";
+        //$phpmailer->Port = 465;
+        //$phpmailer->SMTPAuth = true;
+        //$phpmailer->Username = ""; // gmail username
+        //$phpmailer->Password = ""; // gmail password
+      }
+      else
+      {
+        // use php's mail      
+        $phpmailer->IsMail();         
+      }
+      
+      $return = $phpmailer->Send();
+      if (!$return )
+      {
+        trigger_error('PHPMailer error: ' . $phpmailer->ErrorInfo, E_USER_WARNING);
+      }   
+      return $return;         
     }
     
     /**
