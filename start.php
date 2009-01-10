@@ -52,7 +52,7 @@
 
       // set line ending if admin selected \n (if admin did not change setting, false is returned)
       if (get_plugin_setting('nonstd_mta','phpmailer'))
-        $phpmailer->LE = "\n"
+        $phpmailer->LE = "\n";
       else
         $phpmailer->LE = "\r\n";
          
