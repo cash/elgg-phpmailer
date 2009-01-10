@@ -14,7 +14,7 @@ uncomment all the lines. Also make sure to turn smtp on in the admin plugin sett
 
 SMTP AUTHENTICATION
 ===========================
-If your isp requires authentication for smtp, edit start.php to add your username and password. This is in the gmail section. You have uncomment those two lines and set their values.
+If your isp requires authentication for smtp, edit start.php to add your username and password and turn smtp auth on. This is in the gmail section. You have uncomment those three lines and set their values.
 
 
 TROUBLESHOOTING
