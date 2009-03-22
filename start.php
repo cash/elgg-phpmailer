@@ -93,7 +93,7 @@
         //$phpmailer->Host = "ssl://smtp.gmail.com";
         //$phpmailer->Port = 465;
         //$phpmailer->SMTPAuth = true;
-        //$phpmailer->Username = ""; // gmail username
+        //$phpmailer->Username = ""; // gmail username (full email address?)
         //$phpmailer->Password = ""; // gmail password
       }
       else
