@@ -52,7 +52,7 @@
       $phpmailer->AddAddress($to, $to_name);
       
       // set bccs if exists
-      if ($bcc)
+      if ($bcc && is_array($bcc))
       {
         foreach ($bcc as $address)
           $phpmailer->AddBCC($address);
