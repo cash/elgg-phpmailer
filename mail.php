@@ -7,8 +7,25 @@
    * @author Cash Costello
    * @copyright Cash Costello 2008-2009
    **/
-   
-  function phpmailer_send($from, $from_name, $to, $to_name, $subject, $body, array $bcc = NULL, $html = false, $files = "")
+
+  /**
+   * Send an email using phpmailer
+   *
+   * @param string $from       From address 
+   * @param string $from_name  From name
+   * @param string $to         To address
+   * @param string $to_name    To name
+   * @param string $subject    The subject of the message.
+   * @param string $body       The message body
+   * @param array  $bcc        Array of address strings
+   * @param bool   $html       Set true for html email, also consider setting 
+   *                           altbody in $params array
+   * @param array  $files      Array of file descriptor arrays, each file array 
+   *                           consists of full path and name 
+   * @param array  $params     Additional parameters
+   * @return bool
+   */   
+  function phpmailer_send($from, $from_name, $to, $to_name, $subject, $body, array $bcc = NULL, $html = false, array $files = NULL)
   {
       global $CONFIG;
       
@@ -65,12 +82,20 @@
         $body = strip_tags($body); 
         $phpmailer->IsHTML(false);
       }
+      else
+      {
+        $phpmailer->IsHTML(true);      
+      }
 
       $phpmailer->Body = $body;
       
-      if ($file)
+      if ($files && is_array($files))
       {
-        $phpmailer->AddAttachment($file);
+        foreach ($files as $file)
+        {
+          if (isset($file['path']))
+            $phpmailer->AddAttachment($file['path'], $file['name']);
+        }
       }
 
       $is_smtp   = get_plugin_setting('phpmailer_smtp','phpmailer');
