@@ -5,8 +5,13 @@
    * @package PHPMailer
    * @license Lesser General Public License (LGPL)
    * @author Cash Costello
-   * @copyright Cash Costello 2008
+   * @copyright Cash Costello 2008-2009
    **/
+   
+   global $CONFIG;
+   
+   // include phpmailer wrapper for other plugins to use
+   include $CONFIG->pluginspath . 'phpmailer/mail.php';
   
     /**
      * initialize the phpmailer plugin
