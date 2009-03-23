@@ -25,7 +25,7 @@
    * @param array  $params     Additional parameters
    * @return bool
    */   
-  function phpmailer_send($from, $from_name, $to, $to_name, $subject, $body, array $bcc = NULL, $html = false, array $files = NULL)
+  function phpmailer_send($from, $from_name, $to, $to_name, $subject, $body, array $bcc = NULL, $html = false, array $files = NULL, array $params = NULL)
   {
       global $CONFIG;
       
@@ -81,6 +81,8 @@
       {
         $body = strip_tags($body); 
         $phpmailer->IsHTML(false);
+        if ($param && array_key_exists('altbody', $param))
+          $phpmailer->AltBody = $param['altbody'];
       }
       else
       {
@@ -88,7 +90,7 @@
       }
 
       $phpmailer->Body = $body;
-      
+            
       if ($files && is_array($files))
       {
         foreach ($files as $file)
