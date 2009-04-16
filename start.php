@@ -8,10 +8,10 @@
    * @copyright Cash Costello 2008-2009
    **/
    
-   global $CONFIG;
+    global $CONFIG;
    
-   // include phpmailer wrapper for other plugins to use
-   include $CONFIG->pluginspath . 'phpmailer/mail.php';
+    // include phpmailer wrapper for other plugins to use
+    include $CONFIG->pluginspath . 'phpmailer/mail.php';
   
     /**
      * initialize the phpmailer plugin
@@ -35,16 +35,6 @@
     {
       global $CONFIG;
       
-      static $phpmailer;
-    
-      // Ensure phpmailer object exists
-      if (!is_object($phpmailer) || !is_a($phpmailer, 'PHPMailer')) 
-      {
-        require_once $CONFIG->pluginspath . '/phpmailer/lib/class.phpmailer.php';
-        require_once $CONFIG->pluginspath . '/phpmailer/lib/class.smtp.php';
-        $phpmailer = new PHPMailer();
-      }
-
       if (!$from)
         throw new NotificationException(sprintf(elgg_echo('NotificationException:MissingParameter'), 'from'));
        
@@ -54,65 +44,12 @@
       if ($to->email=="")
         throw new NotificationException(sprintf(elgg_echo('NotificationException:NoEmailAddress'), $to->guid));      
          
-
-      // set line ending if admin selected \n (if admin did not change setting, false is returned)
-      if (get_plugin_setting('nonstd_mta','phpmailer'))
-        $phpmailer->LE = "\n";
-      else
-        $phpmailer->LE = "\r\n";
          
       
-      $to = $to->email;
       $from_email = phpmailer_extract_from_email();
 		  $from_name = $site->name;
 		  
-
-      ////////////////////////////////////
-      // Format message
-      
-      // need to revisit this
-      $message = strip_tags($message); 
-
-      $phpmailer->ClearAllRecipients();
-
-      // Set the from name and email
-      $phpmailer->From = $from_email;
-      $phpmailer->FromName = $from_name;
-
-      // Set destination address
-      $phpmailer->AddAddress($to);
-   
-      $phpmailer->Subject = $subject;
-      $phpmailer->Body = $message;
-      
-      $phpmailer->IsHTML(false);
-
-      $is_smtp   = get_plugin_setting('phpmailer_smtp','phpmailer');
-      $smtp_host = get_plugin_setting('phpmailer_host','phpmailer');
-      if ($is_smtp && isset($smtp_host))
-      {
-        $phpmailer->IsSMTP();
-        $phpmailer->Host = $smtp_host;
-        
-        // uncomment these lines for gmail support and set username and password
-        //$phpmailer->Host = "ssl://smtp.gmail.com";
-        //$phpmailer->Port = 465;
-        //$phpmailer->SMTPAuth = true;
-        //$phpmailer->Username = ""; // gmail username (full email address?)
-        //$phpmailer->Password = ""; // gmail password
-      }
-      else
-      {
-        // use php's mail      
-        $phpmailer->IsMail();         
-      }
-      
-      $return = $phpmailer->Send();
-      if (!$return )
-      {
-        trigger_error('PHPMailer error: ' . $phpmailer->ErrorInfo, E_USER_WARNING);
-      }   
-      return $return;         
+      return phpmailer_send($from_email, $from_name, $to->email, '', $subject, $message);
     }
     
     /**
