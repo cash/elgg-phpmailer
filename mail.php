@@ -42,7 +42,7 @@
       if (!$from)
         throw new NotificationException(sprintf(elgg_echo('NotificationException:MissingParameter'), 'from'));
        
-      if (!$to)
+      if (!$to && !$bcc)
         throw new NotificationException(sprintf(elgg_echo('NotificationException:MissingParameter'), 'to'));         
 
       if (!$subject)
@@ -66,7 +66,8 @@
       $phpmailer->FromName = $from_name;
 
       // Set destination address
-      $phpmailer->AddAddress($to, $to_name);
+      if (isset($to))
+        $phpmailer->AddAddress($to, $to_name);
       
       // set bccs if exists
       if ($bcc && is_array($bcc))
