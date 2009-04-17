@@ -3,7 +3,8 @@
 	$english = array(	
       'phpmailer:smtp' => 'Use SMTP',	
       'phpmailer:host' => 'SMTP Host',
-      'phpmailer:gmail' => 'See readme.txt for gmail support',
+      'phpmailer:username' => 'Username',
+      'phpmailer:password' => 'Password',
 			'phpmailer:nonstd_mta' => 'Using Nonstandard MTA (end of line = \n)',
 	);
 					

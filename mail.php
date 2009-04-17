@@ -107,13 +107,9 @@
       {
         $phpmailer->IsSMTP();
         $phpmailer->Host = $smtp_host;
-        
-        // uncomment these lines for gmail support and set username and password
-        //$phpmailer->Host = "ssl://smtp.gmail.com";
-        //$phpmailer->Port = 465;
-        //$phpmailer->SMTPAuth = true;
-        //$phpmailer->Username = ""; // gmail username (full email address?)
-        //$phpmailer->Password = ""; // gmail password
+        $phpmailer->SMTPAuth = true;
+        $phpmailer->Username = get_plugin_setting('phpmailer_username','phpmailer');
+        $phpmailer->Password = get_plugin_setting('phpmailer_password','phpmailer');
       }
       else
       {
