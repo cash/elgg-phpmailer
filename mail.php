@@ -103,13 +103,18 @@
 
       $is_smtp   = get_plugin_setting('phpmailer_smtp','phpmailer');
       $smtp_host = get_plugin_setting('phpmailer_host','phpmailer');
+      $smtp_auth = get_plugin_setting('phpmailer_smtp_auth','phpmailer');
       if ($is_smtp && isset($smtp_host))
       {
         $phpmailer->IsSMTP();
         $phpmailer->Host = $smtp_host;
-        $phpmailer->SMTPAuth = true;
-        $phpmailer->Username = get_plugin_setting('phpmailer_username','phpmailer');
-        $phpmailer->Password = get_plugin_setting('phpmailer_password','phpmailer');
+        $phpmailer->SMTPAuth = false;
+        if ($smtp_auth)
+        {
+          $phpmailer->SMTPAuth = true;
+          $phpmailer->Username = get_plugin_setting('phpmailer_username','phpmailer');
+          $phpmailer->Password = get_plugin_setting('phpmailer_password','phpmailer');
+        }
       }
       else
       {
