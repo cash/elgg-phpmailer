@@ -47,7 +47,10 @@
          
       
       $from_email = phpmailer_extract_from_email();
-		  $from_name = $site->name;
+      
+      $site = get_entity($CONFIG->site_guid);
+      $from_name = $site->name;
+      
 		  
       return phpmailer_send($from_email, $from_name, $to->email, '', $subject, $message);
     }
