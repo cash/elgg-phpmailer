@@ -114,6 +114,10 @@
           $phpmailer->SMTPAuth = true;
           $phpmailer->Username = get_plugin_setting('phpmailer_username','phpmailer');
           $phpmailer->Password = get_plugin_setting('phpmailer_password','phpmailer');
+
+        //gmail support
+        //$phpmailer->Host = "ssl://smtp.gmail.com";
+        //$phpmailer->Port = 465;
         }
       }
       else
