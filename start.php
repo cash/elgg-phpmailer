@@ -18,7 +18,8 @@
      */    
     function phpmailer_init() 
     {
-      register_notification_handler('email', 'phpmailer_notify_handler');        
+      if (get_plugin_setting('phpmailer_override','phpmailer') != 'disabled')
+        register_notification_handler('email', 'phpmailer_notify_handler');        
     }
     
     /**

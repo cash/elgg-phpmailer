@@ -1,4 +1,7 @@
 <?php
+	$phpmailer_override = $vars['entity']->phpmailer_override;
+	if (!isset($phpmailer_override)) $phpmailer_override = 'enabled';
+
 	$phpmailer_smtp = $vars['entity']->phpmailer_smtp;
 	if (!isset($phpmailer_smtp)) $phpmailer_smtp = 0;
   $smtp_disabled = '';
@@ -18,6 +21,13 @@
 
 	$nonstd_mta = $vars['entity']->nonstd_mta;
 	if (!isset($nonstd_mta)) $nonstd_mta = 0;
+
+  echo '<p>'; 
+  echo elgg_view('input/hidden', array('internalname' => 'params[phpmailer_override]', 'js' => 'id="params[phpmailer_override]"', 'value' => $phpmailer_override )); 
+  echo "<input class='input-checkboxes' type='checkbox' value='' name='overridecheckbox' onclick=\"phpmailer_override();\" ";
+  if ($phpmailer_override == 'enabled') echo "checked='yes'";
+  echo " />";
+  echo ' ' . elgg_echo('phpmailer:override') . '</p><br/>';
 
   // SMTP Settings
   echo '<p>'; 
@@ -69,6 +79,14 @@
 ?>
 
 <script type="text/javascript">
+function phpmailer_override() {
+var state = document.getElementById('params[phpmailer_override]').value; 
+if (state == "enabled")
+  document.getElementById('params[phpmailer_override]').value = "disabled";
+else
+  document.getElementById('params[phpmailer_override]').value = "enabled";
+}
+
 function phpmailer_smtp() {
  var state = document.getElementById('params[phpmailer_smtp]').value;
  state = 1 - state;

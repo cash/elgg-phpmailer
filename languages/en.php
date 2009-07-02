@@ -1,6 +1,7 @@
 <?php
 
-	$english = array(	
+	$english = array(
+      'phpmailer:override' => 'Override default Elgg mail handler',	
       'phpmailer:smtp' => 'Use SMTP',	
       'phpmailer:host' => 'SMTP Host',
       'phpmailer:smtp_auth' => 'Use SMTP Authorization',
