@@ -80,10 +80,18 @@
 
       if (!$html)
       {
-        $body = strip_tags($body); 
+        $phpmailer->CharSet = 'utf-8';
         $phpmailer->IsHTML(false);
         if ($param && array_key_exists('altbody', $param))
           $phpmailer->AltBody = $param['altbody'];
+        
+        $trans_tbl = get_html_translation_table(HTML_ENTITIES);
+        $trans_tbl[chr(146)] = '&rsquo;';  
+        foreach($trans_tbl as $k => $v) {
+            $ttr[$v] = utf8_encode($k);
+        }
+        $source = strtr($body, $ttr);        
+        $body = strip_tags($source); 
       }
       else
       {
