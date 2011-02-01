@@ -1,17 +1,19 @@
 <?php
-
 /**
  * PHPMailer Plugin
  * @package PHPMailer
  * @license Lesser General Public License (LGPL)
  * @author Cash Costello
- * @copyright Cash Costello 2008-2010
- **/
+ * @copyright Cash Costello 2008-2011
+ */
 
 global $CONFIG;
 
 // include phpmailer wrapper for other plugins to use
 include $CONFIG->pluginspath . 'phpmailer/mail.php';
+
+
+register_elgg_event_handler('init','system','phpmailer_init');
 
 /**
  * initialize the phpmailer plugin
@@ -19,6 +21,7 @@ include $CONFIG->pluginspath . 'phpmailer/mail.php';
 function phpmailer_init() {
 	if (get_plugin_setting('phpmailer_override','phpmailer') != 'disabled') {
 		register_notification_handler('email', 'phpmailer_notify_handler');
+		register_plugin_hook('email', 'system', 'phpmailer_mail_override');
 	}
 }
 
@@ -58,6 +61,20 @@ function phpmailer_notify_handler(ElggEntity $from, ElggUser $to, $subject, $mes
 }
 
 /**
+ * Overrides the default email send method of Elgg
+ * @note Will need to add code to handle from and to if using: name <email>
+ */
+function phpmailer_mail_override($hook, $entity_type, $returnvalue, $params) {
+	return phpmailer_send(
+			$params["from"],
+			$params["from"],
+			$params["to"],
+			'',
+			$params["subject"],
+			$params["body"]);
+}
+
+/**
  * Determine the best from email address
  *
  * @return string with email address
@@ -83,8 +100,4 @@ function phpmailer_extract_from_email() {
 	}
 	
 	return $from_email;
-}
-
-register_elgg_event_handler('init','system','phpmailer_init');       
-
-?>
+}      

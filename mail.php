@@ -1,12 +1,11 @@
 <?php
-
 /**
  * PHPMailer Plugin - Wrapper functions for using PHPMailer
  * @package PHPMailer
  * @license Lesser General Public License (LGPL)
  * @author Cash Costello
- * @copyright Cash Costello 2008-2010
- **/
+ * @copyright Cash Costello 2008-2011
+ */
 
 /**
  * Send an email using phpmailer
@@ -82,13 +81,13 @@ function phpmailer_send($from, $from_name, $to, $to_name, $subject, $body, array
 	if (!$html) {
 		$phpmailer->CharSet = 'utf-8';
 		$phpmailer->IsHTML(false);
-		if ($param && array_key_exists('altbody', $param)) {
-			$phpmailer->AltBody = $param['altbody'];
+		if ($params && array_key_exists('altbody', $params)) {
+			$phpmailer->AltBody = $params['altbody'];
 		}
 
 		$trans_tbl = get_html_translation_table(HTML_ENTITIES);
 		$trans_tbl[chr(146)] = '&rsquo;';
-		foreach($trans_tbl as $k => $v) {
+		foreach ($trans_tbl as $k => $v) {
 			$ttr[$v] = utf8_encode($k);
 		}
 		$source = strtr($body, $ttr);
@@ -102,8 +101,9 @@ function phpmailer_send($from, $from_name, $to, $to_name, $subject, $body, array
 
 	if ($files && is_array($files)) {
 		foreach ($files as $file) {
-			if (isset($file['path']))
+			if (isset($file['path'])) {
 				$phpmailer->AddAttachment($file['path'], $file['name']);
+			}
 		}
 	}
 
@@ -140,5 +140,3 @@ function phpmailer_send($from, $from_name, $to, $to_name, $subject, $body, array
 	}
 	return $return;
 } 
-
-?>
