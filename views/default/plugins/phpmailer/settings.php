@@ -1,4 +1,7 @@
 <?php
+/**
+ * PHPMailer plugin settings
+ */
 
 //////////////////////////////////////////////////////
 // set the defaults for any parameters not set
@@ -59,18 +62,32 @@ if (!isset($nonstd_mta)) {
 // now start creating the configuration settings html
 
 // override Elgg mail handler
-echo '<p>'; 
-echo elgg_view('input/hidden', array('internalname' => 'params[phpmailer_override]', 'js' => 'id="params[phpmailer_override]"', 'value' => $phpmailer_override )); 
+echo '<div>';
+echo elgg_view('input/checkbox', array(
+	'name' => 'params[phpmailer_override]',
+	'value' => $phpmailer_override,
+	'options' => array(elgg_echo('phpmailer:override') => 'enabled'),
+	'default' => 'disabled',
+));
+echo elgg_view('input/hidden', array(
+	'internalname' => 'params[phpmailer_override]',
+	'js' => 'id="params[phpmailer_override]"',
+	'value' => $phpmailer_override,
+));
 echo "<input class='input-checkboxes' type='checkbox' value='' name='overridecheckbox' onclick=\"phpmailer_override();\" ";
 if ($phpmailer_override == 'enabled') {
 	echo "checked='yes'";
 }
 echo " />";
-echo ' ' . elgg_echo('phpmailer:override') . '</p><br/>';
+echo ' ' . elgg_echo('phpmailer:override') . '</div>';
 
 // SMTP Settings
-echo '<p>'; 
-echo elgg_view('input/hidden', array('internalname' => 'params[phpmailer_smtp]', 'js' => 'id="params[phpmailer_smtp]"', 'value' => $phpmailer_smtp )); 
+echo '<div>';
+echo elgg_view('input/hidden', array(
+	'internalname' => 'params[phpmailer_smtp]',
+	'js' => 'id="params[phpmailer_smtp]"',
+	'value' => $phpmailer_smtp,
+));
 echo "<input class='input-checkboxes' type='checkbox' value='' name='smtpcheckbox' onclick=\"phpmailer_smtp();\" ";
 if ($phpmailer_smtp) {
 	echo "checked='yes'";
@@ -78,16 +95,20 @@ if ($phpmailer_smtp) {
 echo " />";
 echo ' ' . elgg_echo('phpmailer:smtp') . '<br/>';
 
-echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . elgg_echo('phpmailer:host') . ': ';
+echo elgg_echo('phpmailer:host') . ': ';
 echo elgg_view('input/text', array(
-			'internalname' => 'params[phpmailer_host]',
-			'value' => $phpmailer_host,
-			'class' => ' ',
-			'js' => "id='params[phpmailer_host]' $smtp_disabled"
-) );
+	'internalname' => 'params[phpmailer_host]',
+	'value' => $phpmailer_host,
+	'class' => '',
+	'js' => "id='params[phpmailer_host]' $smtp_disabled",
+));
 
 echo '<br /><br />';
-echo elgg_view('input/hidden', array('internalname' => 'params[phpmailer_smtp_auth]', 'js' => 'id="params[phpmailer_smtp_auth]"', 'value' => $phpmailer_smtp_auth )); 
+echo elgg_view('input/hidden', array(
+	'internalname' => 'params[phpmailer_smtp_auth]',
+	'js' => 'id="params[phpmailer_smtp_auth]"',
+	'value' => $phpmailer_smtp_auth,
+));
 echo "<input class='input-checkboxes' type='checkbox' value='' name='smpthauthcheckbox' id='smpthauthcheckbox' onclick=\"phpmailer_smtp_auth();\" ";
 if ($phpmailer_smtp_auth) {
 	echo "checked='yes'";
@@ -95,52 +116,60 @@ if ($phpmailer_smtp_auth) {
 echo " $smtp_disabled />";
 echo ' ' . elgg_echo('phpmailer:smtp_auth') . '<br/>';
 
-echo '<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . elgg_echo('phpmailer:username') . ':&nbsp;&nbsp;';
+echo elgg_echo('phpmailer:username') . ':';
 echo elgg_view('input/text', array(
-			'internalname' => 'params[phpmailer_username]',
-			'value' => $phpmailer_username,
-			'class' => ' ',
-			'js' => "id='params[phpmailer_username]' $auth_disabled"
-) );
+	'internalname' => 'params[phpmailer_username]',
+	'value' => $phpmailer_username,
+	'class' => ' ',
+	'js' => "id='params[phpmailer_username]' $auth_disabled",
+));
 
-echo '<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . elgg_echo('phpmailer:password') . ':&nbsp;&nbsp;';
-echo elgg_view('input/text', array(
-			'internalname' => 'params[phpmailer_password]',
-			'value' => $phpmailer_password,
-			'class' => ' ',
-			'js' => "id='params[phpmailer_password]' $auth_disabled"
-) );
-echo '</p><br /><p>';
+echo elgg_echo('phpmailer:password') . ':';
+echo elgg_view('input/password', array(
+	'internalname' => 'params[phpmailer_password]',
+	'value' => $phpmailer_password,
+	'class' => 'elgg-input-text',
+	'js' => "id='params[phpmailer_password]' $auth_disabled",
+));
+echo '</div>';
 
  // ssl connection (with port info)
-echo '<p>';
-echo elgg_view('input/hidden', array('internalname' => 'params[ep_phpmailer_ssl]', 'js' => 'id="params[ep_phpmailer_ssl]"', 'value' => $ep_phpmailer_ssl ));
+echo '<div>';
+echo elgg_view('input/hidden', array(
+	'internalname' => 'params[ep_phpmailer_ssl]',
+	'js' => 'id="params[ep_phpmailer_ssl]"',
+	'value' => $ep_phpmailer_ssl,
+));
 echo "<input class='input-checkboxes' type='checkbox' value='' name='epsslcheckbox' id='epsslcheckbox' onclick=\"ep_phpmailer_ssl();\" ";
 if ($ep_phpmailer_ssl) {
 	echo "checked='yes'";
 }
 echo " />";
 echo ' ' . elgg_echo('phpmailer:ssl') . '<br/>';
-echo '<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . elgg_echo('phpmailer:port') . ':&nbsp;&nbsp;';
+echo elgg_echo('phpmailer:port') . ':';
 echo elgg_view('input/text', array(
-			'internalname' => 'params[ep_phpmailer_port]',
-			'value' => $ep_phpmailer_port,
-			'class' => ' ',
-			'js' => "id='params[ep_phpmailer_port]' $ssl_disabled"
-) );
+	'internalname' => 'params[ep_phpmailer_port]',
+	'value' => $ep_phpmailer_port,
+	'class' => ' ',
+	'js' => "id='params[ep_phpmailer_port]' $ssl_disabled",
+));
 
-echo '</p><br /><p>';
+echo '</div><div>';
 
 
 // Non-standard MTA Settings
-echo elgg_view('input/hidden', array('internalname' => 'params[nonstd_mta]', 'js' => 'id="params[nonstd_mta]"', 'value' => $nonstd_mta )); 
+echo elgg_view('input/hidden', array(
+	'internalname' => 'params[nonstd_mta]',
+	'js' => 'id="params[nonstd_mta]"',
+	'value' => $nonstd_mta,
+));
 echo "<input class='input-checkboxes' type='checkbox' value='' name='mtacheckbox' onclick=\"document.getElementById('params[nonstd_mta]').value = 1 - document.getElementById('params[nonstd_mta]').value;\" ";
 if ($nonstd_mta) {
 	echo "checked='yes'";
 }
 echo " />";
 echo ' ' . elgg_echo('phpmailer:nonstd_mta');
-echo '</p>';  
+echo '</div>';
 ?>
 
 <script type="text/javascript">

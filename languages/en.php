@@ -1,4 +1,7 @@
 <?php
+/**
+ * PHPMailer English language file
+ */
 
 $english = array(
 	'phpmailer:override' => 'Override default Elgg mail handler',
