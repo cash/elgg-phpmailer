@@ -46,7 +46,7 @@ function phpmailer_notify_handler(ElggEntity $from, ElggUser $to, $subject, $mes
 	}
 
 
-	$from_email = phpmailer_extract_from_email();
+	$from_email = phpmailer_extract_from_email($from);
 
 	$site = elgg_get_site_entity();
 	$from_name = $site->name;
@@ -70,23 +70,26 @@ function phpmailer_mail_override($hook, $entity_type, $returnvalue, $params) {
 }
 
 /**
- * Determine the best from email address
+ * Determine the best 'from' email address
  *
+ * This is a stupid function pulled from original Elgg code
+ *
+ * @param  ElggEntity The entity sending the message
  * @return string with email address
  */
-function phpmailer_extract_from_email() {
+function phpmailer_extract_from_email($from) {
 	$from_email = '';
 	$site = elgg_get_site_entity();
 	// If there's an email address, use it - but only if its not from a user.
 	if ((isset($from->email)) && (!($from instanceof ElggUser))) {
 		$from_email = $from->email;
 	// Has the current site got a from email address?
-	} else if (($site) && (isset($site->email))) {
+	} else if ($site && $site->email) {
 		$from_email = $site->email;
 	// If we have a url then try and use that.
 	} else if (isset($from->url)) {
 		$breakdown = parse_url($from->url);
-		$from_email = 'noreply@' . $breakdown['host']; // Handle anything with a url
+		$from_email = 'noreply@' . $breakdown['host'];
 	// If all else fails, use the domain of the site.
 	} else {
 		$from_email = 'noreply@' . get_site_domain($site->guid);
@@ -134,7 +137,7 @@ function phpmailer_send($from, $from_name, $to, $to_name, $subject, $body, array
 		throw new NotificationException(sprintf(elgg_echo('NotificationException:MissingParameter'), 'subject'));
 	}
 
-	// set line ending if admin selected \n (if admin did not change setting, false is returned)
+	// set line ending if admin selected \n (if admin did not change setting, null is returned)
 	if (elgg_get_plugin_setting('nonstd_mta', 'phpmailer')) {
 		$phpmailer->LE = "\n";
 	} else {
@@ -222,7 +225,7 @@ function phpmailer_send($from, $from_name, $to, $to_name, $subject, $body, array
 
 	$return = $phpmailer->Send();
 	if (!$return ) {
-		trigger_error('PHPMailer error: ' . $phpmailer->ErrorInfo, E_USER_WARNING);
+		elgg_log('PHPMailer error: ' . $phpmailer->ErrorInfo, 'WARNING');
 	}
 	return $return;
 }
