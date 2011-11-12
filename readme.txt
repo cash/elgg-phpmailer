@@ -29,7 +29,7 @@ should see the sender as PHPMailer.
 
 HOW TO USE THIS FROM ANOTHER PLUGIN
 =============================
-See the function phpmailer_send() in mail.php.
+See the function phpmailer_send() in start.php.
 
 
-PHPMailer can be found at http://phpmailer.codeworxtech.com/
+PHPMailer can be found at http://code.google.com/a/apache-extras.org/p/phpmailer/
