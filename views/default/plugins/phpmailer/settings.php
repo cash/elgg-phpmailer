@@ -3,224 +3,129 @@
  * PHPMailer plugin settings
  */
 
-//////////////////////////////////////////////////////
-// set the defaults for any parameters not set
-
-$phpmailer_override = $vars['entity']->phpmailer_override;
-if (!isset($phpmailer_override)) {
-	$phpmailer_override = 'enabled';
-}
-
-$phpmailer_smtp = $vars['entity']->phpmailer_smtp;
-if (!isset($phpmailer_smtp)) {
-	$phpmailer_smtp = 0;
-}
-$smtp_disabled = '';
-if (!$phpmailer_smtp) {
-	$smtp_disabled = 'disabled="disabled"';
-}
-
-$phpmailer_host = $vars['entity']->phpmailer_host;
-if (!isset($phpmailer_host)) {
-	$phpmailer_host = '';
-}
-
-$phpmailer_smtp_auth = $vars['entity']->phpmailer_smtp_auth;
-if (!isset($phpmailer_smtp_auth)) {
-	$phpmailer_smtp_auth = 0;
-}
-$auth_disabled = '';
-if (!$phpmailer_smtp_auth) {
-	$auth_disabled = 'disabled="disabled"';
-}
-
-
-$phpmailer_username = $vars['entity']->phpmailer_username;
-$phpmailer_password = $vars['entity']->phpmailer_password;
-
-// SSL parameters
-$ep_phpmailer_ssl = $vars['entity']->ep_phpmailer_ssl;
-if (!isset($ep_phpmailer_ssl)) {
-	$ep_phpmailer_ssl = 0;
-}
-$ssl_disabled = '';
-if (!$ep_phpmailer_ssl) {
-	$ssl_disabled = 'disabled="disabled"';
-}
-$ep_phpmailer_port = $vars['entity']->ep_phpmailer_port;
-if (!isset($ep_phpmailer_port)) {
-	$ep_phpmailer_port = 465;
-}
-
-
-$nonstd_mta = $vars['entity']->nonstd_mta;
-if (!isset($nonstd_mta)) {
-	$nonstd_mta = 0;
-}
-
-///////////////////////////////////////////////////////
-// now start creating the configuration settings html
-
 // override Elgg mail handler
 echo '<div>';
+$checked = $vars['entity']->phpmailer_override != 'disabled' ? 'checked' : false;
 echo elgg_view('input/checkbox', array(
 	'name' => 'params[phpmailer_override]',
-	'value' => $phpmailer_override,
-	'options' => array(elgg_echo('phpmailer:override') => 'enabled'),
+	'value' => 'enabled',
+	'checked' => $checked,
 	'default' => 'disabled',
 ));
-echo elgg_view('input/hidden', array(
-	'internalname' => 'params[phpmailer_override]',
-	'js' => 'id="params[phpmailer_override]"',
-	'value' => $phpmailer_override,
-));
-echo "<input class='input-checkboxes' type='checkbox' value='' name='overridecheckbox' onclick=\"phpmailer_override();\" ";
-if ($phpmailer_override == 'enabled') {
-	echo "checked='yes'";
-}
-echo " />";
 echo ' ' . elgg_echo('phpmailer:override') . '</div>';
 
 // SMTP Settings
+echo '<fieldset class="elgg-border-plain mbm pas">';
 echo '<div>';
-echo elgg_view('input/hidden', array(
-	'internalname' => 'params[phpmailer_smtp]',
-	'js' => 'id="params[phpmailer_smtp]"',
-	'value' => $phpmailer_smtp,
+$checked = $vars['entity']->phpmailer_smtp ? 'checked' : false;
+echo elgg_view('input/checkbox', array(
+	'name' => 'params[phpmailer_smtp]',
+	'value' => 1,
+	'checked' => $checked,
+	'default' => 0,
+	'id' => 'phpmailer-smtp',
 ));
-echo "<input class='input-checkboxes' type='checkbox' value='' name='smtpcheckbox' onclick=\"phpmailer_smtp();\" ";
-if ($phpmailer_smtp) {
-	echo "checked='yes'";
-}
-echo " />";
 echo ' ' . elgg_echo('phpmailer:smtp') . '<br/>';
 
 echo elgg_echo('phpmailer:host') . ': ';
 echo elgg_view('input/text', array(
-	'internalname' => 'params[phpmailer_host]',
-	'value' => $phpmailer_host,
-	'class' => '',
-	'js' => "id='params[phpmailer_host]' $smtp_disabled",
+	'name' => 'params[phpmailer_host]',
+	'value' => $vars['entity']->phpmailer_host,
+	'class' => 'phpmailer-smtp elgg-input-natural',
 ));
 
 echo '<br /><br />';
-echo elgg_view('input/hidden', array(
-	'internalname' => 'params[phpmailer_smtp_auth]',
-	'js' => 'id="params[phpmailer_smtp_auth]"',
-	'value' => $phpmailer_smtp_auth,
+$checked = $vars['entity']->phpmailer_smtp_auth ? 'checked' : false;
+echo elgg_view('input/checkbox', array(
+	'name' => 'params[phpmailer_smtp_auth]',
+	'value' => 1,
+	'checked' => $checked,
+	'default' => 0,
+	'class' => 'phpmailer-smtp',
+	'id' => 'phpmailer-smtp-auth',
 ));
-echo "<input class='input-checkboxes' type='checkbox' value='' name='smpthauthcheckbox' id='smpthauthcheckbox' onclick=\"phpmailer_smtp_auth();\" ";
-if ($phpmailer_smtp_auth) {
-	echo "checked='yes'";
-}
-echo " $smtp_disabled />";
 echo ' ' . elgg_echo('phpmailer:smtp_auth') . '<br/>';
 
-echo elgg_echo('phpmailer:username') . ':';
+echo elgg_echo('phpmailer:username') . ': ';
 echo elgg_view('input/text', array(
-	'internalname' => 'params[phpmailer_username]',
-	'value' => $phpmailer_username,
-	'class' => ' ',
-	'js' => "id='params[phpmailer_username]' $auth_disabled",
+	'name' => 'params[phpmailer_username]',
+	'value' => $vars['entity']->phpmailer_username,
+	'class' => 'phpmailer-smtp phpmailer-smtp-auth elgg-input-natural',
 ));
 
+echo '<br />';
 echo elgg_echo('phpmailer:password') . ':';
 echo elgg_view('input/password', array(
-	'internalname' => 'params[phpmailer_password]',
-	'value' => $phpmailer_password,
-	'class' => 'elgg-input-text',
-	'js' => "id='params[phpmailer_password]' $auth_disabled",
+	'name' => 'params[phpmailer_password]',
+	'value' => $vars['entity']->phpmailer_password,
+	'class' => 'phpmailer-smtp phpmailer-smtp-auth elgg-input-natural mts',
 ));
 echo '</div>';
 
- // ssl connection (with port info)
+ // ssl connection for smtp (with port info)
 echo '<div>';
-echo elgg_view('input/hidden', array(
-	'internalname' => 'params[ep_phpmailer_ssl]',
-	'js' => 'id="params[ep_phpmailer_ssl]"',
-	'value' => $ep_phpmailer_ssl,
+$checked = $vars['entity']->ep_phpmailer_ssl ? 'checked' : false;
+echo elgg_view('input/checkbox', array(
+	'name' => 'params[ep_phpmailer_ssl]',
+	'value' => 1,
+	'checked' => $checked,
+	'default' => 0,
+	'class' => 'phpmailer-smtp',
+	'id' => 'phpmailer-ssl',
 ));
-echo "<input class='input-checkboxes' type='checkbox' value='' name='epsslcheckbox' id='epsslcheckbox' onclick=\"ep_phpmailer_ssl();\" ";
-if ($ep_phpmailer_ssl) {
-	echo "checked='yes'";
-}
-echo " />";
 echo ' ' . elgg_echo('phpmailer:ssl') . '<br/>';
+
 echo elgg_echo('phpmailer:port') . ':';
 echo elgg_view('input/text', array(
-	'internalname' => 'params[ep_phpmailer_port]',
-	'value' => $ep_phpmailer_port,
-	'class' => ' ',
-	'js' => "id='params[ep_phpmailer_port]' $ssl_disabled",
+	'name' => 'params[ep_phpmailer_port]',
+	'value' => $vars['entity']->ep_phpmailer_port,
+	'class' => 'phpmailer-smtp phpmailer-ssl elgg-input-natural',
 ));
+echo '</div>';
+echo '</fieldset>';
 
-echo '</div><div>';
-
-
-// Non-standard MTA Settings
-echo elgg_view('input/hidden', array(
-	'internalname' => 'params[nonstd_mta]',
-	'js' => 'id="params[nonstd_mta]"',
-	'value' => $nonstd_mta,
+// Non-standard MTA setting
+echo '<div>';
+$checked = $vars['entity']->nonstd_mta ? 'checked' : false;
+echo elgg_view('input/checkbox', array(
+	'name' => 'params[nonstd_mta]',
+	'value' => 1,
+	'checked' => $checked,
+	'default' => 0,
 ));
-echo "<input class='input-checkboxes' type='checkbox' value='' name='mtacheckbox' onclick=\"document.getElementById('params[nonstd_mta]').value = 1 - document.getElementById('params[nonstd_mta]').value;\" ";
-if ($nonstd_mta) {
-	echo "checked='yes'";
-}
-echo " />";
 echo ' ' . elgg_echo('phpmailer:nonstd_mta');
 echo '</div>';
+
 ?>
 
 <script type="text/javascript">
-	function phpmailer_override() {
-		var state = document.getElementById('params[phpmailer_override]').value;
-		if (state == "enabled")
-			document.getElementById('params[phpmailer_override]').value = "disabled";
-		else
-			document.getElementById('params[phpmailer_override]').value = "enabled";
-	}
+	$(document).ready(function() {
+		phpmailer_form_update();
 
-	function phpmailer_smtp() {
-		var state = document.getElementById('params[phpmailer_smtp]').value;
-		state = 1 - state;
-		document.getElementById('params[phpmailer_smtp]').value = state;
+		$('#phpmailer-smtp').change(phpmailer_form_update);
+		$('#phpmailer-smtp-auth').change(phpmailer_form_update);
+		$('#phpmailer-ssl').change(phpmailer_form_update);
+	});
 
-		if (state == 0) {
-			document.getElementById('params[phpmailer_host]').disabled = true;
-			document.getElementById('smpthauthcheckbox').disabled = true;
-			document.getElementById('params[phpmailer_username]').disabled = true;
-			document.getElementById('params[phpmailer_password]').disabled = true;
+	function phpmailer_form_update() {
+		if ($('#phpmailer-ssl').attr('checked')) {
+			$('.phpmailer-ssl').removeAttr('disabled');
+		}
+		if ($('#phpmailer-smtp-auth').attr('checked')) {
+			$('.phpmailer-smtp-auth').removeAttr('disabled');
+		}
 
-			document.getElementById('epsslcheckbox').disabled = true;
-			document.getElementById('params[ep_phpmailer_port]').disabled = true;
+		if (!$('#phpmailer-smtp').attr('checked')) {
+			$('.phpmailer-smtp').attr('disabled', 'disabled');
 		} else {
-			document.getElementById('params[phpmailer_host]').disabled = false;
-			document.getElementById('smpthauthcheckbox').disabled = false;
-			if (document.getElementById('params[phpmailer_smtp_auth]').value == 1) {
-				document.getElementById('params[phpmailer_username]').disabled = false;
-				document.getElementById('params[phpmailer_password]').disabled = false;
-			}
+			$('.phpmailer-smtp').removeAttr('disabled');
+		}
 
-			document.getElementById('epsslcheckbox').disabled = false;
-			if (document.getElementById('params[ep_phpmailer_ssl]').value == 1) {
-				document.getElementById('params[ep_phpmailer_port]').disabled = false;
-			}
-
+		if (!$('#phpmailer-smtp-auth').attr('checked')) {
+			$('.phpmailer-smtp-auth').attr('disabled', 'disabled');
+		}
+		if (!$('#phpmailer-ssl').attr('checked')) {
+			$('.phpmailer-ssl').attr('disabled', 'disabled');
 		}
 	}
-
-	function phpmailer_smtp_auth() {
-		document.getElementById('params[phpmailer_smtp_auth]').value = 1 - document.getElementById('params[phpmailer_smtp_auth]').value;
-
-		document.getElementById('params[phpmailer_username]').disabled=!document.getElementById('params[phpmailer_username]').disabled;
-		document.getElementById('params[phpmailer_password]').disabled=!document.getElementById('params[phpmailer_password]').disabled;
-	}
-
-	function ep_phpmailer_ssl() {
-		document.getElementById('params[ep_phpmailer_ssl]').value = 1 - document.getElementById('params[ep_phpmailer_ssl]').value;
-
-		document.getElementById('params[ep_phpmailer_port]').disabled=!document.getElementById('params[ep_phpmailer_port]').disabled;
-	}
-
 </script>
