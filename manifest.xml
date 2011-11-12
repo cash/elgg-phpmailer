@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<plugin_manifest>
-        <field key="author" value="Cash Costello" />
-        <field key="version" value="0.99" />
-        <field key="description" value="PHPMailer plugin" />
-        <field key="website" value="http://www.cashcostello.com/" />
-        <field key="licence" value="GNU Lesser General Public License version 3" />
-        <field key="copyright" value="Cash Costello 2008-2011" />
-        <field key="elgg_version" value="2009022701" />
+<plugin_manifest xmlns="http://www.elgg.org/plugin_manifest/1.8">
+	<name>PHPMailer</name>
+	<description>Use PHPMailer for sending email.</description>
+	<author>Cash Costello</author>
+	<version>1.0</version>
+	<category>communication</category>
+	<website>http://www.cashcostello.com/</website>
+	<copyright>Cash Costello 2008-2011</copyright>
+	<license>GNU Lesser General Public License version 3</license>
+	<requires>
+		<type>elgg_release</type>
+		<version>1.8</version>
+	</requires>
 </plugin_manifest>
