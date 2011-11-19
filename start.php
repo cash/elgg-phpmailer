@@ -81,7 +81,7 @@ function phpmailer_extract_from_email($from) {
 	$from_email = '';
 	$site = elgg_get_site_entity();
 	// If there's an email address, use it - but only if its not from a user.
-	if ((isset($from->email)) && (!($from instanceof ElggUser))) {
+	if ($from->email && !($from instanceof ElggUser)) {
 		$from_email = $from->email;
 	// Has the current site got a from email address?
 	} else if ($site && $site->email) {
