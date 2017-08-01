@@ -116,15 +116,6 @@ function phpmailer_extract_from_email($from) {
  * @return bool
  */
 function phpmailer_send($from, $from_name, $to, $to_name, $subject, $body, array $bcc = NULL, $html = false, array $files = NULL, array $params = NULL) {
-	static $phpmailer;
-
-	// Ensure phpmailer object exists
-	if (!is_object($phpmailer) || !is_a($phpmailer, 'PHPMailer')) {
-		require_once elgg_get_plugins_path() . '/phpmailer/vendors/class.phpmailer.php';
-		require_once elgg_get_plugins_path() . '/phpmailer/vendors/class.smtp.php';
-		$phpmailer = new PHPMailer();
-	}
-
 	if (!$from) {
 		throw new NotificationException(sprintf(elgg_echo('NotificationException:MissingParameter'), 'from'));
 	}
@@ -137,6 +128,8 @@ function phpmailer_send($from, $from_name, $to, $to_name, $subject, $body, array
 		throw new NotificationException(sprintf(elgg_echo('NotificationException:MissingParameter'), 'subject'));
 	}
 
+        $phpmailer = new PHPMailer();
+        
 	// set line ending if admin selected \n (if admin did not change setting, null is returned)
 	if (elgg_get_plugin_setting('nonstd_mta', 'phpmailer')) {
 		$phpmailer->LE = "\n";
