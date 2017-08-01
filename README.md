@@ -1,12 +1,13 @@
 
 INSTALLATION
 ==========================
-Put into mod and enable in the admin panel. It will override the default email
+- Install plugin with composer
+- Enable in the admin panel. It will override the default email
 notification handler. There are smtp settings and an end of line marker override
 in the admin plugin settings.
 
 
-SETIINGS
+SETINGS
 ===========================
 This plugin provides a complete set of parameters including:
 1. Should this plugin override the default Elgg mail handler
@@ -32,4 +33,4 @@ HOW TO USE THIS FROM ANOTHER PLUGIN
 See the function phpmailer_send() in start.php.
 
 
-PHPMailer can be found at http://code.google.com/a/apache-extras.org/p/phpmailer/
+PHPMailer can be found at https://github.com/PHPMailer/PHPMailer
