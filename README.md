@@ -1,7 +1,14 @@
 
 INSTALLATION
 ==========================
-- Install plugin with composer
+- To use the plugin with composer, you only need install the plugin with composer:
+
+```bash
+composer require cash/elgg-phpmailer
+```
+
+The composer/installer package install the plugin in the elgg mod folder.
+
 - Enable in the admin panel. It will override the default email
 notification handler. There are smtp settings and an end of line marker override
 in the admin plugin settings.
