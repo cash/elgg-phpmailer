@@ -1,13 +1,13 @@
 {
-	"name": "blackleg/phpmailer",
+	"name": "<Your Iden>/phpmailer",
 	"description": "Use PHPMailer for sending email.",
 	"type": "elgg-plugin",
 	"keywords": ["elgg", "plugin"],
 	"license": "LGPL-3.0",
-	"homepage": "https://www.blackleg.es",
+	"homepage": "http://www.cashcostello.com",
 	"support": {
-		"source": "https://github.com/blackleg/elgg-phpmailer",
-		"issues": "https://github.com/blackleg/elgg-phpmailer/issues"
+		"source": "https://github.com/cash/elgg-phpmailer",
+		"issues": "https://github.com/cash/elgg-phpmailer/issues"
 	},
 	"require": {
 		"composer/installers": "^1.0.8",
