@@ -1,0 +1,16 @@
+{
+	"name": "cash/elgg-phpmailer",
+	"description": "Use PHPMailer for sending email.",
+	"type": "elgg-plugin",
+	"keywords": ["elgg", "plugin"],
+	"license": "LGPL-3.0",
+	"homepage": "http://www.cashcostello.com",
+	"support": {
+		"source": "https://github.com/cash/elgg-phpmailer",
+		"issues": "https://github.com/cash/elgg-phpmailer/issues"
+	},
+	"require": {
+		"composer/installers": "^1.0.8",
+		"phpmailer/phpmailer": "^5.2"
+	}
+}
