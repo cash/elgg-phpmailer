@@ -137,12 +137,6 @@ function phpmailer_send($from, $from_name, $to, $to_name, $subject, $body, array
 		$phpmailer->LE = "\r\n";
 	}
 
-	////////////////////////////////////
-	// Format message
-
-	$phpmailer->ClearAllRecipients();
-	$phpmailer->ClearAttachments();
-
 	// Set the from name and email
 	$phpmailer->From = $from;
 	$phpmailer->FromName = $from_name;
@@ -154,31 +148,34 @@ function phpmailer_send($from, $from_name, $to, $to_name, $subject, $body, array
 
 	// set bccs if exists
 	if ($bcc && is_array($bcc)) {
-		foreach ($bcc as $address)
+		foreach ($bcc as $address) {
 			$phpmailer->AddBCC($address);
+                }
 	}
-
-	$phpmailer->Subject = $subject;
 
 	if (!$html) {
 		$phpmailer->CharSet = 'utf-8';
 		$phpmailer->IsHTML(false);
+                
+                $subject_striped = elgg_strip_tags($subject);
+                $subject_decoded = html_entity_decode($subject_striped, ENT_QUOTES, 'UTF-8');
+                // Sanitise subject by stripping line endings
+                $subject_replaced = preg_replace("/(\r\n|\r|\n)/", " ", $subject_decoded);
+                $subject = trim($subject_replaced);
+                
 		if ($params && array_key_exists('altbody', $params)) {
 			$phpmailer->AltBody = $params['altbody'];
 		}
 
-		$trans_tbl = get_html_translation_table(HTML_ENTITIES);
-		$trans_tbl[chr(146)] = '&rsquo;';
-		foreach ($trans_tbl as $k => $v) {
-			$ttr[$v] = utf8_encode($k);
-		}
-		$source = strtr($body, $ttr);
-		$body = strip_tags($source);
+                $body_striped = elgg_strip_tags($body);
+                $body_decoded = html_entity_decode($body_striped, ENT_QUOTES, 'UTF-8');
+                $body = wordwrap($body_decoded);
 	}
 	else {
 		$phpmailer->IsHTML(true);
 	}
 
+	$phpmailer->Subject = $subject;
 	$phpmailer->Body = $body;
 
 	if ($files && is_array($files)) {
