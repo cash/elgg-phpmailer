@@ -3,7 +3,7 @@
  * PHPMailer English language file
  */
 
-$english = array(
+return [
 	'phpmailer:override' => 'Override default Elgg mail handler',
 	'phpmailer:smtp' => 'Use SMTP',
 	'phpmailer:host' => 'SMTP Host',
@@ -13,6 +13,4 @@ $english = array(
 	'phpmailer:nonstd_mta' => 'Using Nonstandard MTA (end of line = \n)',
 	'phpmailer:ssl' => 'Use SSL Authorization',
 	'phpmailer:port' => 'Port Number',
-);
-					
-add_translation("en", $english);
+];
