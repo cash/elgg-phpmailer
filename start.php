@@ -15,44 +15,9 @@ elgg_register_event_handler('init', 'system', 'phpmailer_init');
  * initialize the phpmailer plugin
  */
 function phpmailer_init() {
-	if (elgg_get_plugin_setting('phpmailer_override', 'phpmailer') != 'disabled') {
-		register_notification_handler('email', 'phpmailer_notify_handler');
-		elgg_register_plugin_hook_handler('email', 'system', 'phpmailer_mail_override');
-	}
-}
-
-/**
- * Send a notification via email using phpmailer
- *
- * @param ElggEntity $from The from user/site/object
- * @param ElggUser $to To which user?
- * @param string $subject The subject of the message.
- * @param string $message The message body
- * @param array $params Optional parameters (not used)
- * @return bool
- */
-function phpmailer_notify_handler(ElggEntity $from, ElggUser $to, $subject, $message, array $params = NULL) {
-
-	if (!$from) {
-		throw new NotificationException(sprintf(elgg_echo('NotificationException:MissingParameter'), 'from'));
-	}
-
-	if (!$to) {
-		throw new NotificationException(sprintf(elgg_echo('NotificationException:MissingParameter'), 'to'));
-	}
-
-	if ($to->email == "") {
-		throw new NotificationException(sprintf(elgg_echo('NotificationException:NoEmailAddress'), $to->guid));
-	}
-
-
-	$from_email = phpmailer_extract_from_email($from);
-
-	$site = elgg_get_site_entity();
-	$from_name = $site->name;
-
-
-	return phpmailer_send($from_email, $from_name, $to->email, '', $subject, $message);
+    if (elgg_get_plugin_setting('phpmailer_override', 'phpmailer') != 'disabled') {
+	elgg_register_plugin_hook_handler('email', 'system', 'phpmailer_mail_override');
+    }
 }
 
 /**
